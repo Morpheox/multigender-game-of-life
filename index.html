@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	</head>
+	<style type="text/css">
+	body{
+		background-color:#cccccc;
+	}
+	#tdd{
+		width:10px;
+		height:10px;
+		}
+		.centered-div
+		{
+		  position: absolute;
+		  margin: auto;
+		  margin-top:0px;	
+		  padding:20px;
+		  padding-top:0px;
+		  right: 0;
+		  left: 0;
+		  width: 500px;
+		  background-color:#ffffff;
+		  border:2px solid black;
+		  border-radius: 5px;
+		      box-shadow: 10px 10px 100px #888888;
+		}
+		.bluebox,.blackbox,.redbox,.whitebox{
+			display: inline-block;
+			width:15px;
+			height:15px;
+			border-radius: 2px;
+			margin-left:3px;
+		}
+		.bluebox{
+			background-color: blue;
+		}
+		.redbox{
+			background-color: red;
+		}
+		.blackbox{
+			background-color: black;
+		}
+
+
+		</style>
+	<script type="text/javascript">
+	var N=50;
+	var grid=new Array()
+	for (i=0;i<N;i++){
+		grid[i]= new Array()
+		for(j=0;j<N;j++){
+			grid[i][j]=Math.floor(Math.random()*3);
+		}
+	}
+	function newrandom(){
+		for (i=0;i<N;i++){
+		grid[i]= new Array()
+		for(j=0;j<N;j++){
+			grid[i][j]=Math.floor(Math.random()*3);
+		}
+	}
+	}
+	function clearall(){
+	for (i=0;i<N;i++){
+		
+		for(j=0;j<N;j++){
+			grid[i][j]=0;
+		}
+	}
+	}
+	function update(){
+	var grid2=new Array()
+	for (i=0;i<N;i++){
+		grid2[i]= new Array()
+		for(j=0;j<N;j++){
+			grid2[i][j]=grid[i][j];
+		}
+	}
+	
+		for (i=0;i<N;i++){
+
+			for(j=0;j<N;j++){
+				dead=0
+				men=0
+				women=0
+				if (i+1>=0 && i+1<N){
+					switch(grid[i+1][j]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (j+1>=0 && j+1<N){
+					switch(grid[i][j+1]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (i-1>=0 && i-1<N){
+					switch(grid[i-1][j]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (j-1>=0 && j-1<N){
+					switch(grid[i][j-1]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (i+1>=0 && i+1<N && j+1>=0 && j+1<N){
+					switch(grid[i+1][j+1]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (j+1>=0 && j+1<N && i-1>=0 && i-1<N){
+					switch(grid[i-1][j+1]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (i-1>=0 && i-1<N && j-1>=0 && j-1<N){
+					switch(grid[i-1][j-1]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+				if (j-1>=0 && j-1<N && i+1>=0 && i+1<N){
+					switch(grid[i+1][j-1]){
+						case 0: dead++;break;
+						case 1: men++;break;
+						case 2: women++;break;
+					}
+				}
+
+				//LÓGICA
+			
+				if(men==1 && women==1){
+					grid2[i][j]=1
+				}
+				else if(men==2 && women==1){
+					grid2[i][j]=2
+				}
+				else if(men==1 && women==2){
+					grid2[i][j]=1
+				}
+				else if(men==2 && women==2){
+					grid2[i][j]=2
+				
+				}
+				else{grid2[i][j]=0}
+			}
+		}
+		
+		
+		grid=grid2;
+		draw();
+	}
+	function draw()
+	{
+		sDraw="<table cellspacing=0 cellpadding=0 border=0 style='border:0px;padding:0;margin:0;'>";
+		for (i=0;i<N;i++){
+			sDraw+="<tr style='border:0px;padding:0;margin:0;'>";
+			for(j=0;j<N;j++){
+				if      (grid[i][j]==1){color="#FF0000"}
+				else if (grid[i][j]==2){color="#0000FF"}
+				else                   {color="#00000"}
+				sDraw+="<td onclick='grid["+i+"]["+j+"]++;if(grid["+i+"]["+j+"]>2){grid["+i+"]["+j+"]=0};draw();' style='border:0px;padding:0;margin:0;' id='tdd' bgcolor='#"+color+"''></td>";
+
+			}
+			sDraw+="</tr>";
+		}
+	sDraw+="</table>";
+	document.getElementById("gr").innerHTML=sDraw;
+	}
+
+		var running;
+	
+	function run(){
+		if(running){
+			window.clearInterval(running);
+		}
+		running=window.setInterval(function(){update()}, 200);
+				}
+	function stop(){
+		window.clearInterval(running);
+	}
+	</script>
+	<body>
+		<div id="cont" class='centered-div' style="position:absolute;margin-left:auto;margin-right: auto;">
+			<h1><span style="color:red">MULTI</span>-<span style="color:blue">GENDER</span> GAME OF LIFE</h1>
+			<p id="gr">
+			
+			</p>
+			<div class="buttons">
+			<input type="button" onclick="run();" value="RUN"/>
+			<input type="button" onclick="stop();" value="STOP"/>
+			<input type="button" onclick="newrandom();update();draw();" value="RANDOM"/>
+			<input type="button" onclick="update();draw();" value="1 STEP"/>
+			<input type="button" onclick="clearall();draw();" value="CLEAR"/>
+			</div>
+			<div class="explainer">
+			<br>
+			<div class="redbox"></div><div class="whitebox"></div> + <div class="bluebox"></div><div class="whitebox"></div> = <div class="bluebox"></div><br>
+			<div class="redbox"></div><div class="redbox"></div> + <div class="bluebox"></div><div class="whitebox"></div> = <div class="bluebox"></div><br>
+			<div class="redbox"></div><div class="whitebox"></div> + <div class="bluebox"></div><div class="bluebox"></div> = <div class="redbox"></div><br>
+			<div class="redbox"></div><div class="redbox"></div> + <div class="bluebox"></div><div class="bluebox"></div> = <div class="redbox"></div><br>
+			Everything else: <div class="blackbox"></div>
+			<div style="float:right;font-size:14px">Experiment by Ernesto Mayoral (Morpheox) <a href="https://github.com/Morpheox/multigender-game-of-life">GITHUB</a></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		
+	draw()
+		</script>
+	</body>
+</html>
