@@ -171,8 +171,8 @@
 		for (i=0;i<N;i++){
 			sDraw+="<tr style='border:0px;padding:0;margin:0;'>";
 			for(j=0;j<N;j++){
-				if      (grid[i][j]==1){color="#FF0000"}
-				else if (grid[i][j]==2){color="#0000FF"}
+				if      (grid[i][j]==2){color="#FF0000"}
+				else if (grid[i][j]==1){color="#0000FF"}
 				else                   {color="#00000"}
 				sDraw+="<td onclick='grid["+i+"]["+j+"]++;if(grid["+i+"]["+j+"]>2){grid["+i+"]["+j+"]=0};draw();' style='border:0px;padding:0;margin:0;' id='tdd' bgcolor='#"+color+"''></td>";
 
